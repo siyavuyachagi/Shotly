@@ -3,6 +3,11 @@
   "displayName": "Shotly",
   "description": "A VS Code extension for taking beautiful screenshots of your code snippets",
   "version": "0.0.1",
+  "category": [
+    "Visualizatio",
+    "Snippets",
+    "Other"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/siyavuyachagi/Shotly"
