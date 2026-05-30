@@ -14,11 +14,11 @@ export const createPanel = async (context: vscode.ExtensionContext): Promise<vsc
     );
 
     const shutterSoundUri = panel.webview.asWebviewUri(
-        vscode.Uri.joinPath(context.extensionUri, 'assets', 'audio', 'shutter.mp3')
+        vscode.Uri.joinPath(context.extensionUri, 'public', 'audio', 'shutter.mp3')
     );
 
     panel.webview.html = await readHtml(
-        path.resolve(context.extensionPath, 'webview/index.html'),
+        path.resolve(context.extensionPath, 'dist/webview/index.html'),
         panel,
         shutterSoundUri
     );

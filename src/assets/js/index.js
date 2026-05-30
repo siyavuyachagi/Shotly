@@ -1,3 +1,5 @@
+'use strict';
+
 import { $, setVar } from './utils.js';
 import { pasteCode } from './code.js';
 import { takeSnap, copySnap, cameraFlashAnimation } from './snap.js';

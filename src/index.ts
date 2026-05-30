@@ -61,10 +61,10 @@ const runCommand = async (context: vscode.ExtensionContext) => {
   }
 
   const saveIconUri = panel.webview.asWebviewUri(
-    vscode.Uri.joinPath(context.extensionUri, 'assets', 'img', 'save.png')
+    vscode.Uri.joinPath(context.extensionUri, 'public', 'icons', 'save.png')
   );
   const copyIconUri = panel.webview.asWebviewUri(
-    vscode.Uri.joinPath(context.extensionUri, 'assets', 'img', 'copy.png')
+    vscode.Uri.joinPath(context.extensionUri, 'public', 'icons', 'copy.png')
   );
 
   const update = async () => {

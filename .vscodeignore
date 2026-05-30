@@ -1,11 +1,11 @@
 .vscode/
 docs/
 src/
-public/
+public/img/
 node_modules/
 tsconfig.json
 .eslintrc
 **/*.map
 **/*.ts
 .gitignore
-webview/.eslintrc
+build.js

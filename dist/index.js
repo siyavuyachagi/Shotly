@@ -92,7 +92,7 @@ var vscode3 = __toESM(require("vscode"));
 var path3 = __toESM(require("path"));
 var read_html_default = async (htmlPath, panel, shutterSoundUri) => {
   const html = await (0, import_promises2.readFile)(htmlPath, "utf-8");
-  return html.replace(/%CSP_SOURCE%/gu, panel.webview.cspSource).replace(
+  return html.replace(/%CSP_SOURCE%/gu, panel.webview.cspSource).replace(/%SAVE_ICON%/gu, "").replace(/%COPY_ICON%/gu, "").replace(
     /(src|href)="([^"]*)"/gu,
     (_, type, src) => {
       if (src === "%SHUTTER_SOUND%") return `${type}="${shutterSoundUri.toString()}"`;
@@ -115,10 +115,10 @@ var createPanel = async (context) => {
     }
   );
   const shutterSoundUri = panel.webview.asWebviewUri(
-    import_vscode2.default.Uri.joinPath(context.extensionUri, "assets", "audio", "shutter.mp3")
+    import_vscode2.default.Uri.joinPath(context.extensionUri, "public", "audio", "shutter.mp3")
   );
   panel.webview.html = await read_html_default(
-    import_path3.default.resolve(context.extensionPath, "webview/index.html"),
+    import_path3.default.resolve(context.extensionPath, "dist/webview/index.html"),
     panel,
     shutterSoundUri
   );
@@ -173,10 +173,10 @@ var runCommand = async (context) => {
     return;
   }
   const saveIconUri = panel.webview.asWebviewUri(
-    import_vscode3.default.Uri.joinPath(context.extensionUri, "assets", "img", "save.png")
+    import_vscode3.default.Uri.joinPath(context.extensionUri, "public", "icons", "save.png")
   );
   const copyIconUri = panel.webview.asWebviewUri(
-    import_vscode3.default.Uri.joinPath(context.extensionUri, "assets", "img", "copy.png")
+    import_vscode3.default.Uri.joinPath(context.extensionUri, "public", "icons", "copy.png")
   );
   const update = async () => {
     await import_vscode3.default.commands.executeCommand("editor.action.clipboardCopyWithSyntaxHighlightingAction");

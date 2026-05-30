@@ -6,6 +6,8 @@ export default async (htmlPath: string, panel: vscode.WebviewPanel, shutterSound
     const html = await readFile(htmlPath, 'utf-8');
     return html
         .replace(/%CSP_SOURCE%/gu, panel.webview.cspSource)
+        .replace(/%SAVE_ICON%/gu, '')  // placeholder, overridden by postMessage
+        .replace(/%COPY_ICON%/gu, '')  // placeholder, overridden by postMessage
         .replace(
             /(src|href)="([^"]*)"/gu,
             (_, type, src) => {

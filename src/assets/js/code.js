@@ -1,3 +1,5 @@
+'use strict';
+
 import { $, $$, setVar, calcTextWidth } from './utils.js';
 
 const snippetNode = $('#snippet');
