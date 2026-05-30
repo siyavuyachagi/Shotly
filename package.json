@@ -7,12 +7,12 @@
     "type": "git",
     "url": "https://github.com/siyavuyachagi/Shotly"
   },
+  "publisher": "siyavuyachagi",
   "author": {
     "name": "Siyavuya Chagi",
     "email": "syavuya08@gmail.com",
     "url": "https://siyavuyachagi.github.io"
   },
-  "publisher": "siyavuyachagi",
   "icon": "assets/icon.png",
   "license": "MIT",
   "engines": {
@@ -54,7 +54,7 @@
         "shotly.outDir": {
           "scope": "resource",
           "type": "string",
-          "default": "Videos",
+          "default": "Pictures/Shotly",
           "description": "Directory to save screenshots. Defaults to ~/Pictures/Shotly"
         },
         "shotly.shutterAction": {
@@ -161,21 +161,23 @@
     "format": "prettier --write \"**/*.{js,jsx,md,json,css,prettierrc,eslintrc,html}\"",
     "check:format": "prettier --check \"**/*.{js,jsx,md,json,css,prettierrc,eslintrc,html}\"",
     "check": "npm run lint && npm run check:format",
-    "build": "tsc -p ./",
     "watch": "tsc -watch -p ./",
+    "clean": "rimraf dist/",
+    "build": "npm run clean && tsc -p ./",
     "vscode:prepublish": "npm run build"
   },
   "devDependencies": {
     "@types/glob": "^7.1.3",
     "@types/mocha": "^8.2.2",
     "@types/node": "^14.18.63",
-    "@types/vscode": "^1.122.1",
+    "@types/vscode": "^1.120.0",
     "eslint": "^7.24.0",
     "eslint-config-adpyke-es6": "^1.4.13",
     "eslint-config-prettier": "^8.2.0",
     "glob": "^7.1.6",
     "mocha": "^8.3.2",
     "prettier": "^2.2.1",
+    "rimraf": "^6.1.3",
     "typescript": "^4.9.5",
     "vscode-test": "^1.5.2"
   },

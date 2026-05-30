@@ -1,13 +1,12 @@
-'use strict';
+"use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const vscode_1 = __importDefault(require("vscode"));
-const path_1 = __importDefault(require("path"));
 const get_configuration_1 = require("./utils/get-configuration");
-const read_html_1 = __importDefault(require("./utils/read-html"));
 const save_image_1 = require("./core/save-image");
+const create_panel_1 = require("./core/create-panel");
 const getConfig = () => {
     const editorSettings = (0, get_configuration_1.getConfiguration)('editor', ['fontLigatures', 'tabSize']);
     const editor = vscode_1.default.window.activeTextEditor;
@@ -36,7 +35,7 @@ const getConfig = () => {
     let windowTitle = '';
     if (editor && extensionConfig.showWindowTitle) {
         const activeFileName = editor.document.uri.path.split('/').pop();
-        windowTitle = `${vscode_1.default.workspace.name ?? ''} - ${activeFileName}`.trim().replace(/^-\s*/, '');
+        windowTitle = `${vscode_1.default.workspace.name || ''} - ${activeFileName}`.trim().replace(/^-\s*/, '');
     }
     return {
         ...editorSettings,
@@ -45,18 +44,9 @@ const getConfig = () => {
         windowTitle
     };
 };
-const createPanel = async (context) => {
-    const panel = vscode_1.default.window.createWebviewPanel('shotly', 'Shotly 📸', { viewColumn: vscode_1.default.ViewColumn.Beside, preserveFocus: true }, {
-        enableScripts: true,
-        localResourceRoots: [vscode_1.default.Uri.file(context.extensionPath)]
-    });
-    const shutterSoundUri = panel.webview.asWebviewUri(vscode_1.default.Uri.joinPath(context.extensionUri, 'assets', 'audio', 'shutter.mp3'));
-    panel.webview.html = await (0, read_html_1.default)(path_1.default.resolve(context.extensionPath, 'webview/index.html'), panel, shutterSoundUri);
-    return panel;
-};
 const hasOneSelection = (selections) => selections.length === 1 && !selections[0].isEmpty;
 const runCommand = async (context) => {
-    const panel = await createPanel(context);
+    const panel = await (0, create_panel_1.createPanel)(context);
     const activeEditor = vscode_1.default.window.visibleTextEditors.find(e => e.viewColumn !== vscode_1.default.ViewColumn.Beside);
     if (!activeEditor) {
         vscode_1.default.window.showErrorMessage('Shotly 📸: No active text editor found.');

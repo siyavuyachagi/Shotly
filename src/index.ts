@@ -1,9 +1,7 @@
-'use strict';
 import vscode from 'vscode';
-import path from 'path';
 import { getConfiguration } from './utils/get-configuration';
-import readHtml from './utils/read-html';
 import { saveImage } from './core/save-image';
+import { createPanel } from './core/create-panel';
 
 const getConfig = () => {
   const editorSettings = getConfiguration('editor', ['fontLigatures', 'tabSize']);
@@ -37,7 +35,7 @@ const getConfig = () => {
   let windowTitle = '';
   if (editor && extensionConfig.showWindowTitle) {
     const activeFileName = editor.document.uri.path.split('/').pop();
-    windowTitle = `${vscode.workspace.name ?? ''} - ${activeFileName}`.trim().replace(/^-\s*/, '');
+    windowTitle = `${vscode.workspace.name || ''} - ${activeFileName}`.trim().replace(/^-\s*/, '');
   }
 
   return {
@@ -47,31 +45,6 @@ const getConfig = () => {
     windowTitle
   };
 };
-
-const createPanel = async (context: vscode.ExtensionContext): Promise<vscode.WebviewPanel> => {
-  const panel = vscode.window.createWebviewPanel(
-    'shotly',
-    'Shotly 📸',
-    { viewColumn: vscode.ViewColumn.Beside, preserveFocus: true },
-    {
-      enableScripts: true,
-      localResourceRoots: [vscode.Uri.file(context.extensionPath)]
-    }
-  );
-
-  const shutterSoundUri = panel.webview.asWebviewUri(
-    vscode.Uri.joinPath(context.extensionUri, 'assets', 'audio', 'shutter.mp3')
-  );
-
-  panel.webview.html = await readHtml(
-    path.resolve(context.extensionPath, 'webview/index.html'),
-    panel,
-    shutterSoundUri
-  );
-
-  return panel;
-};
-
 
 const hasOneSelection = (selections: readonly vscode.Selection[]): boolean =>
   selections.length === 1 && !selections[0].isEmpty;
