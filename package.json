@@ -54,7 +54,7 @@
         "shotly.outDir": {
           "scope": "resource",
           "type": "string",
-          "default": "",
+          "default": "Videos",
           "description": "Directory to save screenshots. Defaults to ~/Pictures/Shotly"
         },
         "shotly.shutterAction": {
@@ -132,7 +132,7 @@
         "shotly.showWindowTitle": {
           "scope": "resource",
           "type": "boolean",
-          "default": true,
+          "default": false,
           "description": "Display window title with folder/file name"
         },
         "shotly.watermark": {

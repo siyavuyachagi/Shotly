@@ -2,18 +2,6 @@
 
 Take beautiful screenshots of your code directly in VS Code.
 
-## Features
-
-- Save screenshots of your code with smart filename templating
-- Copy screenshots to your clipboard without saving
-- Auto-save or manual save dialog (configurable)
-- Watermark / branding support
-- Background color and gradient presets
-- Show/hide line numbers
-- Show/hide window controls and title
-- Rounded corners and transparent background support
-- Highly configurable
-
 ## Usage
 
 1. Open the command palette (`Ctrl+Shift+P` on Windows/Linux, `Cmd+Shift+P` on macOS) and search for `Shotly`.
@@ -29,22 +17,23 @@ Take beautiful screenshots of your code directly in VS Code.
 
 ## Configuration
 
-| Setting                        | Type      | Default             | Description                                                                                       |
-| ------------------------------ | --------- | ------------------- | ------------------------------------------------------------------------------------------------- |
-| `shotly.outDir`                | `string`  | `~/Pictures/Shotly` | Directory to save screenshots                                                                     |
-| `shotly.shutterAction`         | `string`  | `save`              | `save` or `copy`                                                                                  |
-| `shotly.shutterSound`          | `boolean` | `true`              | Play a shutter sound when taking a screenshot                                                     |
-| `shotly.target`                | `string`  | `container`         | `container` or `window`                                                                           |
-| `shotly.backgroundColor`       | `string`  | ``                  | Background color of the snippet container. Accepts (`#fff`, `rgb()`, `transparent`, named colors) |
-| `shotly.boxShadow`             | `string`  | `gray`              | CSS box-shadow for the snippet                                                                    |
-| `shotly.containerPadding`      | `string`  | `3em`               | Padding for the snippet container                                                                 |
-| `shotly.roundedCorners`        | `boolean` | `true`              | Use rounded corners for the window                                                                |
-| `shotly.transparentBackground` | `boolean` | `true`              | Use transparent background when taking the screenshot                                             |
-| `shotly.showWindowControls`    | `boolean` | `true`              | Show macOS style window controls                                                                  |
-| `shotly.showWindowTitle`       | `boolean` | `true`              | Show window title with folder/file name                                                           |
-| `shotly.watermark`             | `string`  | ``                  | Watermark text displayed in the title bar alongside the window controls e.g. `@siyavuyachagi`     |
-| `shotly.showLineNumbers`       | `boolean` | `true`              | Show line numbers                                                                                 |
-| `shotly.realLineNumbers`       | `boolean` | `false`             | Start from the file's real line number                                                            |
+| Setting                        | Type      | Default             | Description                                                                                          |
+| ------------------------------ | --------- | ------------------- | ---------------------------------------------------------------------------------------------------- |
+| `shotly.outDir`                | `string`  | `~/Pictures/Shotly` | Directory to save screenshots                                                                        |
+| `shotly.shutterAction`         | `string`  | `save`              | `save` or `copy`                                                                                     |
+| `shotly.saveMode`              | `string`  | `manual`            | Save behavior when shutterAction is `save`. `manual` shows a dialog, `auto` saves directly to outDir |
+| `shotly.shutterSound`          | `boolean` | `true`              | Play a shutter sound when taking a screenshot                                                        |
+| `shotly.target`                | `string`  | `container`         | `container` or `window`                                                                              |
+| `shotly.backgroundColor`       | `string`  | ``                  | Background color of the snippet container. Accepts (`#fff`, `rgb()`, `transparent`, named colors)    |
+| `shotly.boxShadow`             | `string`  | `gray`              | CSS box-shadow for the snippet                                                                       |
+| `shotly.containerPadding`      | `string`  | `3em`               | Padding for the snippet container                                                                    |
+| `shotly.roundedCorners`        | `boolean` | `true`              | Use rounded corners for the window                                                                   |
+| `shotly.transparentBackground` | `boolean` | `true`              | Use transparent background when taking the screenshot                                                |
+| `shotly.showWindowControls`    | `boolean` | `true`              | Show macOS style window controls                                                                     |
+| `shotly.showWindowTitle`       | `boolean` | `false`             | Show window title with folder/file name                                                              |
+| `shotly.watermark`             | `string`  | ``                  | Watermark text displayed in the title bar alongside the window controls e.g. `@siyavuyachagi`        |
+| `shotly.showLineNumbers`       | `boolean` | `true`              | Show line numbers                                                                                    |
+| `shotly.realLineNumbers`       | `boolean` | `false`             | Start from the file's real line number                                                               |
 
 ## Acknowledgements
 

@@ -13,7 +13,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Save with dialog or auto-save (configurable)
 - Copy screenshot to clipboard without saving
 - Background color customization
-- Background presets
 - Watermark / branding support
 - Show/hide line numbers
 - Show/hide window controls

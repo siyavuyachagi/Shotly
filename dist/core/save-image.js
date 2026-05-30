@@ -9,12 +9,36 @@ const path_1 = __importDefault(require("path"));
 const promises_1 = require("fs/promises");
 const os_1 = require("os");
 const generate_file_name_1 = require("./generate-file-name");
+/**
+ * Saves a base64-encoded PNG image to disk.
+ *
+ * Behaviour is controlled by the `shotly.saveMode` setting:
+ * - `"auto"` – writes directly to the resolved output directory and shows
+ *              an information message with the final path.
+ * - `"prompt"` (default) – opens a Save-As dialog pre-filled with the
+ *              generated filename, then writes to the user-chosen location.
+ *
+ * The output directory is resolved from `shotly.outDir`. If that setting is
+ * empty or whitespace, it falls back to `~/Pictures/Shotly`.
+ * The directory (and any missing parents) is created automatically.
+ *
+ * @param data   Base64-encoded PNG image data.
+ * @param editor The active text editor, used by {@link generateFileName} to
+ *               derive a contextual filename.
+ */
 const saveImage = async (data, editor) => {
     const configuredDir = vscode_1.default.workspace.getConfiguration('shotly').get('outDir');
     const saveMode = vscode_1.default.workspace.getConfiguration('shotly').get('saveMode');
-    const outDir = configuredDir?.trim()
-        ? configuredDir
-        : path_1.default.join((0, os_1.homedir)(), 'Pictures', 'Shotly');
+    const resolveOutDir = (dir) => {
+        if (!dir?.trim())
+            return path_1.default.join((0, os_1.homedir)(), 'Pictures', 'Shotly');
+        if (dir.startsWith('~'))
+            return path_1.default.join((0, os_1.homedir)(), dir.slice(1));
+        if (path_1.default.isAbsolute(dir))
+            return dir;
+        return path_1.default.join((0, os_1.homedir)(), dir); // relative → anchored to home
+    };
+    const outDir = resolveOutDir(configuredDir);
     await (0, promises_1.mkdir)(outDir, { recursive: true });
     if (saveMode === 'auto') {
         const filePath = path_1.default.resolve(outDir, (0, generate_file_name_1.generateFileName)(editor));
