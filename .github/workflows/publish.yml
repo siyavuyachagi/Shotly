@@ -22,6 +22,6 @@ jobs:
         run: npm ci
 
       - name: Publish
-        run: npx vsce publish
+        run: npx @vscode/vsce publish
         env:
           VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}

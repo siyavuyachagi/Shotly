@@ -37,6 +37,9 @@
   "categories": [
     "Other"
   ],
+  "activationEvents": [
+    "onCommand:shotly.start"
+  ],
   "main": "./dist/index.js",
   "contributes": {
     "commands": [
