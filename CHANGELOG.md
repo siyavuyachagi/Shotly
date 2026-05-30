@@ -21,3 +21,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Rounded corners toggle
 - Transparent background support
 - Real line numbers support
+- Shutter sound
+- Watermark

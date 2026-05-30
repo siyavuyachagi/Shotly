@@ -46,7 +46,8 @@ const createPanel = async (context) => {
         enableScripts: true,
         localResourceRoots: [vscode_1.default.Uri.file(context.extensionPath)]
     });
-    const shutterSoundUri = panel.webview.asWebviewUri(vscode_1.default.Uri.joinPath(context.extensionUri, 'assets', 'audio', 'shutter.wav'));
+    const shutterSoundUri = panel.webview.asWebviewUri(vscode_1.default.Uri.joinPath(context.extensionUri, 'assets', 'audio', 'shutter.mp3'));
+    console.log('Shutter sound URI:', shutterSoundUri.toString());
     panel.webview.html = await (0, readHtml_1.default)(path_1.default.resolve(context.extensionPath, 'webview/index.html'), panel, shutterSoundUri);
     return panel;
 };
@@ -59,7 +60,7 @@ const generateFileName = (editor) => {
         : 'code';
     return `${sourceFile}.png`;
 };
-let lastUsedDirectory = path_1.default.resolve((0, os_1.homedir)(), 'Desktop');
+let lastUsedDirectory = path_1.default.resolve((0, os_1.homedir)(), 'Pictures/Shotly');
 const saveImage = async (data, editor) => {
     const defaultUri = vscode_1.default.Uri.file(path_1.default.resolve(lastUsedDirectory, generateFileName(editor)));
     const uri = await vscode_1.default.window.showSaveDialog({
@@ -68,6 +69,7 @@ const saveImage = async (data, editor) => {
     });
     if (uri) {
         lastUsedDirectory = path_1.default.dirname(uri.fsPath);
+        await (0, promises_1.mkdir)(lastUsedDirectory, { recursive: true });
         await (0, promises_1.writeFile)(uri.fsPath, Buffer.from(data, 'base64'));
     }
 };
