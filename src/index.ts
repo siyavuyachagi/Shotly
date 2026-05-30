@@ -30,7 +30,7 @@ const getConfig = () => {
     'showWindowTitle',
     'showLineNumbers',
     'realLineNumbers',
-]);
+  ]);
 
   const selection = editor && editor.selection;
   const startLine = extensionSettings.realLineNumbers ? (selection ? selection.start.line : 0) : 0;
@@ -95,11 +95,19 @@ const generateFileName = (editor: vscode.TextEditor | undefined): string => {
 
 const saveImage = async (data: string, editor: vscode.TextEditor | undefined): Promise<void> => {
   const configuredDir = vscode.workspace.getConfiguration('shotly').get<string>('outDir');
+  const saveMode = vscode.workspace.getConfiguration('shotly').get<string>('saveMode');
   const outDir = configuredDir?.trim()
     ? configuredDir
     : path.join(homedir(), 'Pictures', 'Shotly');
 
   await mkdir(outDir, { recursive: true });
+
+  if (saveMode === 'auto') {
+    const filePath = path.resolve(outDir, generateFileName(editor));
+    await writeFile(filePath, Buffer.from(data, 'base64'));
+    vscode.window.showInformationMessage(`Shotly 📸: Saved to ${filePath}`);
+    return;
+  }
 
   const defaultUri = vscode.Uri.file(
     path.resolve(outDir, generateFileName(editor))
@@ -146,7 +154,7 @@ const runCommand = async (context: vscode.ExtensionContext) => {
   panel.webview.onDidReceiveMessage(async ({ type, data }) => {
     if (type === 'save') {
       flash();
-      await saveImage(data, activeEditor);
+      await saveImage(data, activeEditor ?? vscode.window.visibleTextEditors[0]);
     } else {
       vscode.window.showErrorMessage(`Shotly 📸: Unknown shutterAction "${type}"`);
     }

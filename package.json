@@ -67,6 +67,16 @@
           "default": "save",
           "description": "The behavior of the shutter button"
         },
+        "shotly.saveMode": {
+          "scope": "resource",
+          "type": "string",
+          "enum": [
+            "manual",
+            "auto"
+          ],
+          "default": "manual",
+          "description": "Save behavior when shutterAction is 'save'. 'manual' shows a dialog, 'auto' saves directly to outDir."
+        },
         "shotly.shutterSound": {
           "scope": "resource",
           "type": "boolean",
