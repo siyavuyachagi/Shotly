@@ -17,6 +17,10 @@ export const cameraFlashAnimation = async () => {
   flashFx.style.opacity = '1';
 };
 
+/**
+ * Plays the shutter sound effect if enabled in config.
+ * @param {object} config - The Shotly configuration object
+ */
 const playShutterSound = (config) => {
   const sound = document.querySelector('#shutter-sound');
   if (sound && config.shutterSound !== false) {
