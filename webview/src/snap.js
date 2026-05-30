@@ -17,13 +17,15 @@ export const cameraFlashAnimation = async () => {
   flashFx.style.opacity = '1';
 };
 
-export const takeSnap = async (config) => {
+const playShutterSound = (config) => {
   const sound = document.querySelector('#shutter-sound');
-  if (sound && config.shutterSound !== false && config.shutterAction !== 'copy') {
+  if (sound && config.shutterSound !== false) {
     sound.currentTime = 0;
     sound.play().catch(() => {});
-}
+  }
+};
 
+const captureImage = async (config) => {
   windowNode.style.resize = 'none';
   if (config.transparentBackground || config.target === 'window') {
     setVar('container-background-color', 'transparent');
@@ -42,18 +44,24 @@ export const takeSnap = async (config) => {
     }
   });
 
-  const data = url.slice(url.indexOf(',') + 1);
-  if (config.shutterAction === 'copy') {
-    const binary = atob(data);
-    const array = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) array[i] = binary.charCodeAt(i);
-    const blob = new Blob([array], { type: 'image/png' });
-    navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-    cameraFlashAnimation();
-  } else {
-    vscode.postMessage({ type: config.shutterAction, data });
-  }
-
   windowNode.style.resize = 'horizontal';
   setVar('container-background-color', config.backgroundColor);
+
+  return url.slice(url.indexOf(',') + 1);
+};
+
+export const takeSnap = async (config) => {
+  playShutterSound(config);
+  const data = await captureImage(config);
+  vscode.postMessage({ type: config.shutterAction, data });
+};
+
+export const copySnap = async (config) => {
+  const data = await captureImage(config);
+  const binary = atob(data);
+  const array = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) array[i] = binary.charCodeAt(i);
+  const blob = new Blob([array], { type: 'image/png' });
+  await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+  cameraFlashAnimation();
 };

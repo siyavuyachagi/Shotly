@@ -1,6 +1,6 @@
 import { $, setVar } from './utils.js';
 import { pasteCode } from './code.js';
-import { takeSnap, cameraFlashAnimation } from './snap.js';
+import { takeSnap, copySnap, cameraFlashAnimation } from './snap.js';
 
 const navbarNode = $('#navbar');
 const windowControlsNode = $('#window-controls');
@@ -11,8 +11,7 @@ const btnCopy = $('#copy');
 let config;
 
 btnSave.addEventListener('click', () => takeSnap(config));
-btnCopy.addEventListener('click', () => takeSnap({ ...config, shutterAction: 'copy' }));
-document.addEventListener('copy', () => takeSnap({ ...config, shutterAction: 'copy' }));
+btnCopy.addEventListener('click', () => copySnap(config));
 
 document.addEventListener('paste', (e) => pasteCode(config, e.clipboardData));
 
