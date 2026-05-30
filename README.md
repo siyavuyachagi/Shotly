@@ -4,10 +4,10 @@ Take beautiful screenshots of your code directly in VS Code.
 
 ## Usage
 
-1. Open the command palette (`Ctrl+Shift+P` on Windows/Linux, `Cmd+Shift+P` on macOS) and search for `Shotly`.
-2. Select the code you'd like to screenshot.
+1. Select the code snippet you'd like to screenshot.
+2. Right-click and select **Shotly 📸** from the context menu.
 3. Adjust the width of the screenshot if desired.
-4. Click **Shutter** to save, **Copy** to copy to clipboard.
+4. Click **Save** to save to disk, or **Copy** to copy to clipboard.
 
 **Tips:**
 
