@@ -3,6 +3,8 @@ import path from 'path';
 import { mkdir, writeFile } from 'fs/promises';
 import { homedir } from 'os';
 import { generateFileName } from './generate-file-name';
+import pkg from '../../package.json' assert { type: 'json' };
+const { name, displayName } = pkg;
 
 /**
  * Saves a base64-encoded PNG image to disk.
@@ -22,11 +24,11 @@ import { generateFileName } from './generate-file-name';
  *               derive a contextual filename.
  */
 export const saveImage = async (data: string, editor: vscode.TextEditor): Promise<void> => {
-    const configuredDir = vscode.workspace.getConfiguration('shotly').get<string>('outDir');
-    const saveMode = vscode.workspace.getConfiguration('shotly').get<string>('saveMode');
+    const configuredDir = vscode.workspace.getConfiguration(name).get<string>('outDir');
+    const saveMode = vscode.workspace.getConfiguration(name).get<string>('saveMode');
 
     const resolveOutDir = (dir: string | undefined): string => {
-        if (!dir?.trim()) return path.join(homedir(), 'Pictures', 'Shotly');
+        if (!dir?.trim()) return path.join(homedir(), 'Pictures', displayName);
         if (dir.startsWith('~')) return path.join(homedir(), dir.slice(1));
         if (path.isAbsolute(dir)) return dir;
         return path.join(homedir(), dir); // relative → anchored to home
@@ -38,7 +40,7 @@ export const saveImage = async (data: string, editor: vscode.TextEditor): Promis
     if (saveMode === 'auto') {
         const filePath = path.resolve(outDir, generateFileName(editor));
         await writeFile(filePath, Buffer.from(data, 'base64'));
-        vscode.window.showInformationMessage(`Shotly 📸: Saved to ${filePath}`);
+        vscode.window.showInformationMessage(`${displayName} 📸: Saved to ${filePath}`);
         return;
     }
 

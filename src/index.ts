@@ -2,13 +2,15 @@ import vscode from 'vscode';
 import { getConfiguration } from './utils/get-configuration';
 import { saveImage } from './core/save-image';
 import { createPanel } from './core/create-panel';
+import pkg from '../package.json' assert { type: 'json' };
+const { name, displayName, contributes } = pkg;
 
 const getConfig = () => {
   const editorSettings = getConfiguration('editor', ['fontLigatures', 'tabSize']);
   const editor = vscode.window.activeTextEditor;
   if (editor) editorSettings.tabSize = editor.options.tabSize;
 
-  const extensionConfig = getConfiguration('shotly', [
+  const extensionConfig = getConfiguration(name, [
     // Output
     'shutterAction',
     'shutterSound',
@@ -56,7 +58,7 @@ const runCommand = async (context: vscode.ExtensionContext) => {
   );
 
   if (!activeEditor) {
-    vscode.window.showErrorMessage('Shotly 📸: No active text editor found.');
+    vscode.window.showErrorMessage(`${displayName} 📸: No active text editor found.`);
     return;
   }
 
@@ -84,7 +86,7 @@ const runCommand = async (context: vscode.ExtensionContext) => {
       flash();
       await saveImage(data, activeEditor);
     } else {
-      vscode.window.showErrorMessage(`Shotly 📸: Unknown shutterAction "${type}"`);
+      vscode.window.showErrorMessage(`${displayName} 📸: Unknown shutterAction "${type}"`);
     }
   });
 
@@ -100,5 +102,5 @@ const runCommand = async (context: vscode.ExtensionContext) => {
 
 module.exports.activate = (context: vscode.ExtensionContext) =>
   context.subscriptions.push(
-    vscode.commands.registerCommand('shotly.start', () => runCommand(context))
+    vscode.commands.registerCommand(contributes.commands[0].command, () => runCommand(context))
   );

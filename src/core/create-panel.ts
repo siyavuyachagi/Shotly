@@ -1,11 +1,13 @@
 import vscode from 'vscode';
 import readHtml from '../utils/read-html';
 import path from 'path';
+import pkg from '../../package.json' assert { type: 'json' };
+const { name, displayName } = pkg;
 
 export const createPanel = async (context: vscode.ExtensionContext): Promise<vscode.WebviewPanel> => {
     const panel = vscode.window.createWebviewPanel(
-        'shotly',
-        'Shotly 📸',
+        name, // internal identifier, not user-facing
+        `${displayName} 📸`, // User-facing title
         { viewColumn: vscode.ViewColumn.Beside, preserveFocus: true },
         {
             enableScripts: true,
