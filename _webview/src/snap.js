@@ -1,4 +1,5 @@
 import { $, $$, redraw, once, setVar } from './utils.js';
+import domtoimage from 'dom-to-image-even-more';
 
 const vscode = acquireVsCodeApi();
 const windowNode = $('#window');

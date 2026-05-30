@@ -11,6 +11,6 @@
       "sourceMap": true,
       "resolveJsonModule": true
     },
-    "include": ["src"],
+    "include": ["src", "_webview"],
     "exclude": ["node_modules", ".vscode-test"]
   }
