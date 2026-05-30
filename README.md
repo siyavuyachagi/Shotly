@@ -9,7 +9,6 @@ Take beautiful screenshots of your code directly in VS Code.
 3. Adjust the width of the screenshot if desired.
 4. Click **Save** to save to disk, or **Copy** to copy to clipboard.
 
-
 ## Examples
 
 ![alt text](public/img/get-configuration.png)
