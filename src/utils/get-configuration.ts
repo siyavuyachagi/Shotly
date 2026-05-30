@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 
-export const getSettings = (group: string, keys: string[]): Record<string, unknown> => {
+export const getConfiguration = (group: string, keys: string[]): Record<string, unknown> => {
     const settings = vscode.workspace.getConfiguration(group, null);
     const editor = vscode.window.activeTextEditor;
     const language = editor?.document?.languageId;

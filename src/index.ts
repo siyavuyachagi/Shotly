@@ -1,17 +1,16 @@
 'use strict';
 import vscode from 'vscode';
 import path from 'path';
-import { homedir } from 'os';
-import { getSettings } from './utils/getSettings';
-import readHtml from './utils/readHtml';
-import { mkdir, writeFile } from "fs/promises";
+import { getConfiguration } from './utils/get-configuration';
+import readHtml from './utils/read-html';
+import { saveImage } from './core/save-image';
 
 const getConfig = () => {
-  const editorSettings = getSettings('editor', ['fontLigatures', 'tabSize']);
+  const editorSettings = getConfiguration('editor', ['fontLigatures', 'tabSize']);
   const editor = vscode.window.activeTextEditor;
   if (editor) editorSettings.tabSize = editor.options.tabSize;
 
-  const extensionSettings = getSettings('shotly', [
+  const extensionConfig = getConfiguration('shotly', [
     // Output
     'shutterAction',
     'shutterSound',
@@ -33,17 +32,17 @@ const getConfig = () => {
   ]);
 
   const selection = editor && editor.selection;
-  const startLine = extensionSettings.realLineNumbers ? (selection ? selection.start.line : 0) : 0;
+  const startLine = extensionConfig.realLineNumbers ? (selection ? selection.start.line : 0) : 0;
 
   let windowTitle = '';
-  if (editor && extensionSettings.showWindowTitle) {
+  if (editor && extensionConfig.showWindowTitle) {
     const activeFileName = editor.document.uri.path.split('/').pop();
     windowTitle = `${vscode.workspace.name ?? ''} - ${activeFileName}`.trim().replace(/^-\s*/, '');
   }
 
   return {
     ...editorSettings,
-    ...extensionSettings,
+    ...extensionConfig,
     startLine,
     windowTitle
   };
@@ -64,8 +63,6 @@ const createPanel = async (context: vscode.ExtensionContext): Promise<vscode.Web
     vscode.Uri.joinPath(context.extensionUri, 'assets', 'audio', 'shutter.mp3')
   );
 
-  console.log('Shutter sound URI:', shutterSoundUri.toString());
-
   panel.webview.html = await readHtml(
     path.resolve(context.extensionPath, 'webview/index.html'),
     panel,
@@ -75,62 +72,20 @@ const createPanel = async (context: vscode.ExtensionContext): Promise<vscode.Web
   return panel;
 };
 
-/**
- * Generates a filename for the screenshot based on the active editor's file name.
- * Converts PascalCase and snake_case to kebab-case.
- * @example `UserService.ts` → `user-service.png`
- * @example `user_service.ts` → `user-service.png`
- * @example `userservice.ts` → `userservice.png`
- */
-const generateFileName = (editor: vscode.TextEditor | undefined): string => {
-  const sourceFile = editor
-    ? path.basename(editor.document.uri.fsPath, path.extname(editor.document.uri.fsPath))
-      .replace(/([a-z])([A-Z])/gu, '$1-$2')
-      .replace(/_/gu, '-')
-      .toLowerCase()
-    : 'code';
-  return `${sourceFile}.png`;
-};
-
-
-const saveImage = async (data: string, editor: vscode.TextEditor | undefined): Promise<void> => {
-  const configuredDir = vscode.workspace.getConfiguration('shotly').get<string>('outDir');
-  const saveMode = vscode.workspace.getConfiguration('shotly').get<string>('saveMode');
-  const outDir = configuredDir?.trim()
-    ? configuredDir
-    : path.join(homedir(), 'Pictures', 'Shotly');
-
-  await mkdir(outDir, { recursive: true });
-
-  if (saveMode === 'auto') {
-    const filePath = path.resolve(outDir, generateFileName(editor));
-    await writeFile(filePath, Buffer.from(data, 'base64'));
-    vscode.window.showInformationMessage(`Shotly 📸: Saved to ${filePath}`);
-    return;
-  }
-
-  const defaultUri = vscode.Uri.file(
-    path.resolve(outDir, generateFileName(editor))
-  );
-
-  const uri = await vscode.window.showSaveDialog({
-    filters: { Images: ['png'] },
-    defaultUri
-  });
-
-  if (uri) {
-    await mkdir(path.dirname(uri.fsPath), { recursive: true });
-    await writeFile(uri.fsPath, Buffer.from(data, 'base64'));
-  }
-};
-
 
 const hasOneSelection = (selections: readonly vscode.Selection[]): boolean =>
   selections.length === 1 && !selections[0].isEmpty;
 
 const runCommand = async (context: vscode.ExtensionContext) => {
-  const activeEditor = vscode.window.activeTextEditor;
   const panel = await createPanel(context);
+  const activeEditor = vscode.window.visibleTextEditors.find(
+    e => e.viewColumn !== vscode.ViewColumn.Beside
+  );
+
+  if (!activeEditor) {
+    vscode.window.showErrorMessage('Shotly 📸: No active text editor found.');
+    return;
+  }
 
   const saveIconUri = panel.webview.asWebviewUri(
     vscode.Uri.joinPath(context.extensionUri, 'assets', 'img', 'save.png')
@@ -154,7 +109,7 @@ const runCommand = async (context: vscode.ExtensionContext) => {
   panel.webview.onDidReceiveMessage(async ({ type, data }) => {
     if (type === 'save') {
       flash();
-      await saveImage(data, activeEditor ?? vscode.window.visibleTextEditors[0]);
+      await saveImage(data, activeEditor);
     } else {
       vscode.window.showErrorMessage(`Shotly 📸: Unknown shutterAction "${type}"`);
     }
