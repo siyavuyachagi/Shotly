@@ -122,8 +122,14 @@
         "shotly.showWindowTitle": {
           "scope": "resource",
           "type": "boolean",
-          "default": false,
+          "default": true,
           "description": "Display window title with folder/file name"
+        },
+        "shotly.watermark": {
+          "scope": "resource",
+          "type": "string",
+          "default": "",
+          "description": "Watermark text displayed in the title bar. e.g. @siyavuyachagi"
         },
         "shotly.showLineNumbers": {
           "scope": "resource",

@@ -20,6 +20,20 @@ body {
   user-select: none;
 }
 
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+#actions-container {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
 #snippet-scroll {
   max-width: 100%;
   overflow-x: scroll;
@@ -49,24 +63,48 @@ body {
 }
 
 #navbar {
-  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 15px;
-  text-align: center;
+  min-height: 20px;
+  position: relative;
+}
+
+#title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 4px;
 }
 
 #window-controls {
   display: flex;
-  float: left;
-  margin-top: 2px;
+  align-items: center;
 }
 
 #window-controls[hidden] {
   display: none;
 }
 
+#watermark {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: var(--vscode-editorLineNumber-foreground);
+  font-family: var(--vscode-editor-font-family);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
 #window-title {
-  /* width of window controls (and a bit) so they don't overlap */
-  margin: 0 80px;
+  font-size: 12px;
+  color: var(--vscode-editorLineNumber-foreground);
+  font-family: var(--vscode-editor-font-family);
+  white-space: nowrap;
+  margin: 0;
 }
 
 #snippet {
@@ -97,20 +135,6 @@ body {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-}
-
-#actions-container {
-  display: flex;
-  gap: 1.5rem;
-  justify-content: center;
-  margin: 1rem 0;
-}
-
-button {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
 }
 
 .dot {

@@ -41,7 +41,8 @@ Take beautiful screenshots of your code directly in VS Code.
 | `shotly.roundedCorners`        | `boolean` | `true`              | Use rounded corners for the window                                                                |
 | `shotly.transparentBackground` | `boolean` | `true`              | Use transparent background when taking the screenshot                                             |
 | `shotly.showWindowControls`    | `boolean` | `true`              | Show macOS style window controls                                                                  |
-| `shotly.showWindowTitle`       | `boolean` | `false`             | Show window title with folder/file name                                                           |
+| `shotly.showWindowTitle`       | `boolean` | `true`              | Show window title with folder/file name                                                           |
+| `shotly.watermark`             | `string`  | ``                  | Watermark text displayed in the title bar alongside the window controls e.g. `@siyavuyachagi`     |
 | `shotly.showLineNumbers`       | `boolean` | `true`              | Show line numbers                                                                                 |
 | `shotly.realLineNumbers`       | `boolean` | `false`             | Start from the file's real line number                                                            |
 

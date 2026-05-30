@@ -5,6 +5,8 @@ import { takeSnap, copySnap, cameraFlashAnimation } from './snap.js';
 const navbarNode = $('#navbar');
 const windowControlsNode = $('#window-controls');
 const windowTitleNode = $('#window-title');
+const watermarkNode = document.querySelector('#watermark');
+
 const btnSave = $('#save');
 const btnCopy = $('#copy');
 
@@ -31,7 +33,8 @@ window.addEventListener('message', ({ data: { type, saveIconUri, copyIconUri, ..
       roundedCorners,
       showWindowControls,
       showWindowTitle,
-      windowTitle
+      windowTitle,
+      watermark
     } = config;
 
     setVar('ligatures', fontLigatures ? 'normal' : 'none');
@@ -42,11 +45,13 @@ window.addEventListener('message', ({ data: { type, saveIconUri, copyIconUri, ..
     setVar('container-padding', containerPadding);
     setVar('window-border-radius', roundedCorners ? '4px' : 0);
 
-    navbarNode.hidden = !showWindowControls && !showWindowTitle;
+    navbarNode.hidden = !showWindowControls && !showWindowTitle && !watermark;
     windowControlsNode.hidden = !showWindowControls;
-    windowTitleNode.hidden = !showWindowTitle;
 
+    windowTitleNode.hidden = !showWindowTitle;
     windowTitleNode.textContent = windowTitle;
+    
+    if (watermarkNode) watermarkNode.textContent = watermark || '';
 
     document.execCommand('paste');
   } else if (type === 'flash') {

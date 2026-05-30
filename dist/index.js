@@ -15,25 +15,29 @@ const getConfig = () => {
     if (editor)
         editorSettings.tabSize = editor.options.tabSize;
     const extensionSettings = (0, getSettings_1.getSettings)('shotly', [
+        // Output
+        'shutterAction',
+        'shutterSound',
+        'target',
+        // Appearance
         'backgroundColor',
         'boxShadow',
         'containerPadding',
         'roundedCorners',
+        'transparentBackground',
+        'watermark',
+        // Window / UI
         'showWindowControls',
         'showWindowTitle',
         'showLineNumbers',
         'realLineNumbers',
-        'transparentBackground',
-        'target',
-        'shutterAction',
-        'shutterSound'
     ]);
     const selection = editor && editor.selection;
     const startLine = extensionSettings.realLineNumbers ? (selection ? selection.start.line : 0) : 0;
     let windowTitle = '';
     if (editor && extensionSettings.showWindowTitle) {
         const activeFileName = editor.document.uri.path.split('/').pop();
-        windowTitle = `${vscode_1.default.workspace.name} - ${activeFileName}`;
+        windowTitle = `${vscode_1.default.workspace.name ?? ''} - ${activeFileName}`.trim().replace(/^-\s*/, '');
     }
     return {
         ...editorSettings,
