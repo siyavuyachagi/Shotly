@@ -29,20 +29,21 @@ Take beautiful screenshots of your code directly in VS Code.
 
 ## Configuration
 
-| Setting | Type | Default | Description |
-|---|---|---|---|
-| `shotly.backgroundColor` | `string` | `#abb8c3` | Background color of the snippet container |
-| `shotly.boxShadow` | `string` | `rgba(0,0,0,0.55) 0px 20px 68px` | CSS box-shadow for the snippet |
-| `shotly.containerPadding` | `string` | `3em` | Padding for the snippet container |
-| `shotly.roundedCorners` | `boolean` | `true` | Use rounded corners for the window |
-| `shotly.showWindowControls` | `boolean` | `true` | Show macOS style window controls |
-| `shotly.showWindowTitle` | `boolean` | `false` | Show window title with folder/file name |
-| `shotly.showLineNumbers` | `boolean` | `true` | Show line numbers |
-| `shotly.realLineNumbers` | `boolean` | `false` | Start from the file's real line number |
-| `shotly.transparentBackground` | `boolean` | `false` | Use transparent background |
-| `shotly.target` | `string` | `container` | `container` or `window` |
-| `shotly.shutterAction` | `string` | `save` | `save` or `copy` |
-
+| Setting                        | Type      | Default             | Description                                                                                       |
+| ------------------------------ | --------- | ------------------- | ------------------------------------------------------------------------------------------------- |
+| `shotly.outDir`                | `string`  | `~/Pictures/Shotly` | Directory to save screenshots                                                                     |
+| `shotly.shutterAction`         | `string`  | `save`              | `save` or `copy`                                                                                  |
+| `shotly.shutterSound`          | `boolean` | `true`              | Play a shutter sound when taking a screenshot                                                     |
+| `shotly.target`                | `string`  | `container`         | `container` or `window`                                                                           |
+| `shotly.backgroundColor`       | `string`  | ``                  | Background color of the snippet container. Accepts (`#fff`, `rgb()`, `transparent`, named colors) |
+| `shotly.boxShadow`             | `string`  | `gray`              | CSS box-shadow for the snippet                                                                    |
+| `shotly.containerPadding`      | `string`  | `3em`               | Padding for the snippet container                                                                 |
+| `shotly.roundedCorners`        | `boolean` | `true`              | Use rounded corners for the window                                                                |
+| `shotly.transparentBackground` | `boolean` | `true`              | Use transparent background when taking the screenshot                                             |
+| `shotly.showWindowControls`    | `boolean` | `true`              | Show macOS style window controls                                                                  |
+| `shotly.showWindowTitle`       | `boolean` | `false`             | Show window title with folder/file name                                                           |
+| `shotly.showLineNumbers`       | `boolean` | `true`              | Show line numbers                                                                                 |
+| `shotly.realLineNumbers`       | `boolean` | `false`             | Start from the file's real line number                                                            |
 
 ## Acknowledgements
 

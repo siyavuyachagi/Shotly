@@ -6,7 +6,7 @@ const snippetContainerNode = $('#snippet-container');
 
 const flashFx = $('#flash-fx');
 
-const SNAP_SCALE = 1.5;
+const SNAP_SCALE = 2;
 
 export const cameraFlashAnimation = async () => {
   flashFx.style.display = 'block';

@@ -86,13 +86,13 @@
         "shotly.backgroundColor": {
           "scope": "resource",
           "type": "string",
-          "default": "#abb8c3",
+          "default": "",
           "description": "Background color of the snippet container"
         },
         "shotly.boxShadow": {
           "scope": "resource",
           "type": "string",
-          "default": "rgba(0, 0, 0, 0.55) 0px 20px 68px",
+          "default": "gray",
           "description": "CSS box-shadow for the snippet"
         },
         "shotly.containerPadding": {
@@ -110,7 +110,7 @@
         "shotly.transparentBackground": {
           "scope": "resource",
           "type": "boolean",
-          "default": false,
+          "default": true,
           "description": "Use a transparent background when taking the screenshot"
         },
         "shotly.showWindowControls": {
