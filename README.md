@@ -43,6 +43,7 @@ Take beautiful screenshots of your code directly in VS Code.
 | `shotly.target` | `string` | `container` | `container` or `window` |
 | `shotly.shutterAction` | `string` | `save` | `save` or `copy` |
 
+
 ## Acknowledgements
 
 Inspired by [CodeSnap](https://github.com/kufii/CodeSnap) and [Polacode](https://github.com/octref/polacode).

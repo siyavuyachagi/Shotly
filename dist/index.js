@@ -25,7 +25,8 @@ const getConfig = () => {
         'realLineNumbers',
         'transparentBackground',
         'target',
-        'shutterAction'
+        'shutterAction',
+        'shutterSound'
     ]);
     const selection = editor && editor.selection;
     const startLine = extensionSettings.realLineNumbers ? (selection ? selection.start.line : 0) : 0;
@@ -60,16 +61,19 @@ const generateFileName = (editor) => {
         : 'code';
     return `${sourceFile}.png`;
 };
-let lastUsedDirectory = path_1.default.resolve((0, os_1.homedir)(), 'Pictures/Shotly');
 const saveImage = async (data, editor) => {
-    const defaultUri = vscode_1.default.Uri.file(path_1.default.resolve(lastUsedDirectory, generateFileName(editor)));
+    const configuredDir = vscode_1.default.workspace.getConfiguration('shotly').get('outDir');
+    const outDir = configuredDir?.trim()
+        ? configuredDir
+        : path_1.default.join((0, os_1.homedir)(), 'Pictures', 'Shotly');
+    await (0, promises_1.mkdir)(outDir, { recursive: true });
+    const defaultUri = vscode_1.default.Uri.file(path_1.default.resolve(outDir, generateFileName(editor)));
     const uri = await vscode_1.default.window.showSaveDialog({
         filters: { Images: ['png'] },
         defaultUri
     });
     if (uri) {
-        lastUsedDirectory = path_1.default.dirname(uri.fsPath);
-        await (0, promises_1.mkdir)(lastUsedDirectory, { recursive: true });
+        await (0, promises_1.mkdir)(path_1.default.dirname(uri.fsPath), { recursive: true });
         await (0, promises_1.writeFile)(uri.fsPath, Buffer.from(data, 'base64'));
     }
 };

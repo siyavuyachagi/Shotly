@@ -49,71 +49,13 @@
     },
     "configuration": {
       "type": "object",
-      "title": "Shotly Configuration",
+      "title": "Shotly configuration",
       "properties": {
-        "shotly.backgroundColor": {
+        "shotly.outDir": {
           "scope": "resource",
           "type": "string",
-          "default": "#abb8c3",
-          "description": "The background color of the snippet's container"
-        },
-        "shotly.boxShadow": {
-          "scope": "resource",
-          "type": "string",
-          "default": "rgba(0, 0, 0, 0.55) 0px 20px 68px",
-          "description": "The CSS box-shadow for the snippet"
-        },
-        "shotly.containerPadding": {
-          "scope": "resource",
-          "type": "string",
-          "default": "3em",
-          "description": "The padding for the snippet's container"
-        },
-        "shotly.roundedCorners": {
-          "scope": "resource",
-          "type": "boolean",
-          "default": true,
-          "description": "Use rounded corners for the window"
-        },
-        "shotly.showWindowControls": {
-          "scope": "resource",
-          "type": "boolean",
-          "default": true,
-          "description": "Display OS X style window controls"
-        },
-        "shotly.showWindowTitle": {
-          "scope": "resource",
-          "type": "boolean",
-          "default": false,
-          "description": "Display window title with open folder / file name"
-        },
-        "shotly.showLineNumbers": {
-          "scope": "resource",
-          "type": "boolean",
-          "default": true,
-          "description": "Display line numbers"
-        },
-        "shotly.realLineNumbers": {
-          "scope": "resource",
-          "type": "boolean",
-          "default": false,
-          "description": "Start from the selection's line number instead of 1"
-        },
-        "shotly.transparentBackground": {
-          "scope": "resource",
-          "type": "boolean",
-          "default": false,
-          "description": "Use a transparent background when taking the screenshot"
-        },
-        "shotly.target": {
-          "scope": "resource",
-          "type": "string",
-          "enum": [
-            "container",
-            "window"
-          ],
-          "default": "container",
-          "description": "Take the shot with or without the container"
+          "default": "",
+          "description": "Directory to save screenshots. Defaults to ~/Pictures/Shotly"
         },
         "shotly.shutterAction": {
           "scope": "resource",
@@ -126,9 +68,74 @@
           "description": "The behavior of the shutter button"
         },
         "shotly.shutterSound": {
+          "scope": "resource",
           "type": "boolean",
           "default": true,
           "description": "Play a shutter sound when taking a screenshot"
+        },
+        "shotly.target": {
+          "scope": "resource",
+          "type": "string",
+          "enum": [
+            "container",
+            "window"
+          ],
+          "default": "container",
+          "description": "Take the shot with or without the container"
+        },
+        "shotly.backgroundColor": {
+          "scope": "resource",
+          "type": "string",
+          "default": "#abb8c3",
+          "description": "Background color of the snippet container"
+        },
+        "shotly.boxShadow": {
+          "scope": "resource",
+          "type": "string",
+          "default": "rgba(0, 0, 0, 0.55) 0px 20px 68px",
+          "description": "CSS box-shadow for the snippet"
+        },
+        "shotly.containerPadding": {
+          "scope": "resource",
+          "type": "string",
+          "default": "3em",
+          "description": "Padding for the snippet container"
+        },
+        "shotly.roundedCorners": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": true,
+          "description": "Use rounded corners for the window"
+        },
+        "shotly.transparentBackground": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Use a transparent background when taking the screenshot"
+        },
+        "shotly.showWindowControls": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": true,
+          "description": "Display macOS style window controls"
+        },
+        "shotly.showWindowTitle": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Display window title with folder/file name"
+        },
+        "shotly.showLineNumbers": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": true,
+          "description": "Display line numbers"
+        },
+        "shotly.realLineNumbers": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Start from the file's real line number instead of 1"
         }
       }
     }

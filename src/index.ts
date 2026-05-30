@@ -1,5 +1,4 @@
 'use strict';
-
 import vscode from 'vscode';
 import path from 'path';
 import { homedir } from 'os';
@@ -23,7 +22,8 @@ const getConfig = () => {
     'realLineNumbers',
     'transparentBackground',
     'target',
-    'shutterAction'
+    'shutterAction',
+    'shutterSound'
   ]);
 
   const selection = editor && editor.selection;
@@ -57,7 +57,7 @@ const createPanel = async (context: vscode.ExtensionContext): Promise<vscode.Web
   const shutterSoundUri = panel.webview.asWebviewUri(
     vscode.Uri.joinPath(context.extensionUri, 'assets', 'audio', 'shutter.mp3')
   );
-  
+
   console.log('Shutter sound URI:', shutterSoundUri.toString());
 
   panel.webview.html = await readHtml(
@@ -79,10 +79,17 @@ const generateFileName = (editor: vscode.TextEditor | undefined): string => {
   return `${sourceFile}.png`;
 };
 
-let lastUsedDirectory = path.resolve(homedir(), 'Pictures/Shotly');
+
 const saveImage = async (data: string, editor: vscode.TextEditor | undefined): Promise<void> => {
+  const configuredDir = vscode.workspace.getConfiguration('shotly').get<string>('outDir');
+  const outDir = configuredDir?.trim()
+    ? configuredDir
+    : path.join(homedir(), 'Pictures', 'Shotly');
+
+  await mkdir(outDir, { recursive: true });
+
   const defaultUri = vscode.Uri.file(
-    path.resolve(lastUsedDirectory, generateFileName(editor))
+    path.resolve(outDir, generateFileName(editor))
   );
 
   const uri = await vscode.window.showSaveDialog({
@@ -91,8 +98,7 @@ const saveImage = async (data: string, editor: vscode.TextEditor | undefined): P
   });
 
   if (uri) {
-    lastUsedDirectory = path.dirname(uri.fsPath);
-    await mkdir(lastUsedDirectory, { recursive: true });
+    await mkdir(path.dirname(uri.fsPath), { recursive: true });
     await writeFile(uri.fsPath, Buffer.from(data, 'base64'));
   }
 };
