@@ -9,11 +9,12 @@ Take beautiful screenshots of your code directly in VS Code.
 3. Adjust the width of the screenshot if desired.
 4. Click **Save** to save to disk, or **Copy** to copy to clipboard.
 
-**Tips:**
 
-- You can also start Shotly by selecting code, right-clicking, and clicking **Shotly 📸**
-- Bind Shotly to a hotkey by opening keyboard shortcut settings and binding `shotly.start`
-- Set `shotly.shutterAction` to `"copy"` to copy to clipboard by default instead of saving
+## Examples
+
+![alt text](public/img/get-configuration.png)
+
+![alt text](public/img/snap.png)
 
 ## Configuration
 
