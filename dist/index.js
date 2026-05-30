@@ -46,7 +46,8 @@ const createPanel = async (context) => {
         enableScripts: true,
         localResourceRoots: [vscode_1.default.Uri.file(context.extensionPath)]
     });
-    panel.webview.html = await (0, readHtml_1.default)(path_1.default.resolve(context.extensionPath, 'webview/index.html'), panel);
+    const shutterSoundUri = panel.webview.asWebviewUri(vscode_1.default.Uri.joinPath(context.extensionUri, 'assets', 'audio', 'shutter.wav'));
+    panel.webview.html = await (0, readHtml_1.default)(path_1.default.resolve(context.extensionPath, 'webview/index.html'), panel, shutterSoundUri);
     return panel;
 };
 const generateFileName = (editor) => {
@@ -74,9 +75,16 @@ const hasOneSelection = (selections) => selections.length === 1 && !selections[0
 const runCommand = async (context) => {
     const activeEditor = vscode_1.default.window.activeTextEditor;
     const panel = await createPanel(context);
+    const saveIconUri = panel.webview.asWebviewUri(vscode_1.default.Uri.joinPath(context.extensionUri, 'assets', 'img', 'save.png'));
+    const copyIconUri = panel.webview.asWebviewUri(vscode_1.default.Uri.joinPath(context.extensionUri, 'assets', 'img', 'copy.png'));
     const update = async () => {
         await vscode_1.default.commands.executeCommand('editor.action.clipboardCopyWithSyntaxHighlightingAction');
-        panel.webview.postMessage({ type: 'update', ...getConfig() });
+        panel.webview.postMessage({
+            type: 'update',
+            saveIconUri: saveIconUri.toString(),
+            copyIconUri: copyIconUri.toString(),
+            ...getConfig()
+        });
     };
     const flash = () => panel.webview.postMessage({ type: 'flash' });
     panel.webview.onDidReceiveMessage(async ({ type, data }) => {

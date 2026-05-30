@@ -1,4 +1,4 @@
-import { $, $$, redraw, once, setVar } from './util.js';
+import { $, $$, redraw, once, setVar } from './utils.js';
 
 const vscode = acquireVsCodeApi();
 const windowNode = $('#window');
@@ -6,7 +6,7 @@ const snippetContainerNode = $('#snippet-container');
 
 const flashFx = $('#flash-fx');
 
-const SNAP_SCALE = 2;
+const SNAP_SCALE = 1.5;
 
 export const cameraFlashAnimation = async () => {
   flashFx.style.display = 'block';

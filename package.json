@@ -124,6 +124,11 @@
           ],
           "default": "save",
           "description": "The behavior of the shutter button"
+        },
+        "shotly.shutterSound": {
+          "type": "boolean",
+          "default": true,
+          "description": "Play a shutter sound when taking a screenshot"
         }
       }
     }

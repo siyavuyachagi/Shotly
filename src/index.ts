@@ -53,9 +53,15 @@ const createPanel = async (context: vscode.ExtensionContext): Promise<vscode.Web
       localResourceRoots: [vscode.Uri.file(context.extensionPath)]
     }
   );
+
+  const shutterSoundUri = panel.webview.asWebviewUri(
+    vscode.Uri.joinPath(context.extensionUri, 'assets', 'audio', 'shutter.wav')
+  );
+
   panel.webview.html = await readHtml(
     path.resolve(context.extensionPath, 'webview/index.html'),
-    panel
+    panel,
+    shutterSoundUri
   );
 
   return panel;
@@ -96,9 +102,21 @@ const runCommand = async (context: vscode.ExtensionContext) => {
   const activeEditor = vscode.window.activeTextEditor;
   const panel = await createPanel(context);
 
+  const saveIconUri = panel.webview.asWebviewUri(
+    vscode.Uri.joinPath(context.extensionUri, 'assets', 'img', 'save.png')
+  );
+  const copyIconUri = panel.webview.asWebviewUri(
+    vscode.Uri.joinPath(context.extensionUri, 'assets', 'img', 'copy.png')
+  );
+
   const update = async () => {
     await vscode.commands.executeCommand('editor.action.clipboardCopyWithSyntaxHighlightingAction');
-    panel.webview.postMessage({ type: 'update', ...getConfig() });
+    panel.webview.postMessage({
+      type: 'update',
+      saveIconUri: saveIconUri.toString(),
+      copyIconUri: copyIconUri.toString(),
+      ...getConfig()
+    });
   };
 
   const flash = () => panel.webview.postMessage({ type: 'flash' });

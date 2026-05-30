@@ -1,4 +1,4 @@
-import { $, $$, setVar, calcTextWidth } from './util.js';
+import { $, $$, setVar, calcTextWidth } from './utils.js';
 
 const snippetNode = $('#snippet');
 

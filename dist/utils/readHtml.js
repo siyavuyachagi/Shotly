@@ -26,10 +26,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const promises_1 = require("fs/promises");
 const vscode = __importStar(require("vscode"));
 const path = __importStar(require("path"));
-exports.default = async (htmlPath, panel) => {
+exports.default = async (htmlPath, panel, shutterSoundUri) => {
     const html = await (0, promises_1.readFile)(htmlPath, 'utf-8');
     return html
         .replace(/%CSP_SOURCE%/gu, panel.webview.cspSource)
-        .replace(/(src|href)="([^"]*)"/gu, (_, type, src) => `${type}="${panel.webview.asWebviewUri(vscode.Uri.file(path.resolve(htmlPath, '..', src)))}"`);
+        .replace(/(src|href)="([^"]*)"/gu, (_, type, src) => `${type}="${panel.webview.asWebviewUri(vscode.Uri.file(path.resolve(htmlPath, '..', src)))}"`)
+        .replace('%SHUTTER_SOUND%', shutterSoundUri.toString());
 };
 //# sourceMappingURL=readHtml.js.map

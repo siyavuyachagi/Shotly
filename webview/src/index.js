@@ -1,4 +1,4 @@
-import { $, setVar } from './util.js';
+import { $, setVar } from './utils.js';
 import { pasteCode } from './code.js';
 import { takeSnap, cameraFlashAnimation } from './snap.js';
 
@@ -6,19 +6,23 @@ const navbarNode = $('#navbar');
 const windowControlsNode = $('#window-controls');
 const windowTitleNode = $('#window-title');
 const btnSave = $('#save');
+const btnCopy = $('#copy');
 
 let config;
 
 btnSave.addEventListener('click', () => takeSnap(config));
-
+btnCopy.addEventListener('click', () => takeSnap({ ...config, shutterAction: 'copy' }));
 document.addEventListener('copy', () => takeSnap({ ...config, shutterAction: 'copy' }));
 
 document.addEventListener('paste', (e) => pasteCode(config, e.clipboardData));
 
-window.addEventListener('message', ({ data: { type, ...cfg } }) => {
+window.addEventListener('message', ({ data: { type, saveIconUri, copyIconUri, ...cfg } }) => {
   if (type === 'update') {
     config = cfg;
 
+    if (saveIconUri) document.querySelector('#save img').src = saveIconUri;
+    if (copyIconUri) document.querySelector('#copy img').src = copyIconUri;
+    
     const {
       fontLigatures,
       tabSize,
