@@ -18,6 +18,12 @@ export const cameraFlashAnimation = async () => {
 };
 
 export const takeSnap = async (config) => {
+  const sound = document.querySelector('#shutter-sound');
+  if (sound) {
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
+  }
+  
   windowNode.style.resize = 'none';
   if (config.transparentBackground || config.target === 'window') {
     setVar('container-background-color', 'transparent');

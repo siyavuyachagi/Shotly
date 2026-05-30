@@ -6,13 +6,12 @@ export default async (htmlPath: string, panel: vscode.WebviewPanel, shutterSound
     const html = await readFile(htmlPath, 'utf-8');
     return html
         .replace(/%CSP_SOURCE%/gu, panel.webview.cspSource)
-        .replace('%SHUTTER_SOUND%', shutterSoundUri.toString())
         .replace(
-            /(src|href)="([^http][^"]*)"/gu,
-            (_, type, src) =>
-                src.startsWith('vscode-webview-resource') ? `${type}="${src}"` :
-                    `${type}="${panel.webview.asWebviewUri(
-                        vscode.Uri.file(path.resolve(htmlPath, '..', src))
-                    )}"`
-        )
+            /(src|href)="([^"]*)"/gu,
+            (_, type, src) => {
+                if (src === '%SHUTTER_SOUND%') return `${type}="${shutterSoundUri.toString()}"`;
+                if (src.startsWith('vscode-webview-resource')) return `${type}="${src}"`;
+                return `${type}="${panel.webview.asWebviewUri(vscode.Uri.file(path.resolve(htmlPath, '..', src)))}"`;
+            }
+        );
 };
